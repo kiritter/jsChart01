@@ -78,7 +78,16 @@ var LineChart = function() {
 			.attr("cy", function(d) {
 				return scaleY(d.data);
 			})
-			.attr("r", 5);
+			.attr("r", 5)
+			.attr("class", function(d) {
+				var classNm;
+				if (d.error !== "") {
+					classNm = "pointError";
+				}else{
+					classNm = "";
+				}
+				return classNm;
+			});
 	};
 
 	var drawLabelData = function(svg, dataset, scaleX, scaleY) {
@@ -143,20 +152,30 @@ var LineChart = function() {
 		});
 	};
 
-	var drawLineData = function(svg, data, scaleX, scaleY, MIN_DATA_X, MAX_DATA_X) {
+	var drawLineData = function(svg, UL, scaleX, scaleY, MIN_DATA_X, MAX_DATA_X) {
 		svg.append("line")
-			.attr("class", "CL")
+			.attr("class", "UL")
 			.attr("x1", scaleX(MIN_DATA_X))
-			.attr("y1", scaleY(data))
-			.attr("x2", scaleX(MAX_DATA_X))
-			.attr("y2", scaleY(data));
+			.attr("y1", scaleY(UL))
+			.attr("x2", scaleX(MAX_DATA_X) + 30)
+			.attr("y2", scaleY(UL));
+
+		svg.append("text")
+			.attr("class", "labelUL")
+			.text("UL")
+			.attr("x", function(d) {
+				return scaleX(MAX_DATA_X) + 35;
+			})
+			.attr("y", function(d) {
+				return scaleY(UL) + 3;
+			});
 	};
 
 	//--------------------------------------------------------------------------------
-	var drawLineChart = function(elementId, dataset) {
+	var drawLineChart = function(elementId, dataset, UL) {
 
 		var MARGIN = {top: 0, right: 20, bottom: 0, left: 0};
-		var PADDING = {top: 20, right: 40, bottom: 50, left: 30};
+		var PADDING = {top: 10, right: 50, bottom: 50, left: 30};
 
 		var WIDTH = 640 - (MARGIN.left + MARGIN.right);
 		var HEIGHT = 380 - (MARGIN.top + MARGIN.bottom);
@@ -182,7 +201,7 @@ var LineChart = function() {
 
 		drawPathData(svg, dataset, scaleX, scaleY);
 
-		drawLineData(svg, 1.5, scaleX, scaleY, MIN_DATA_X, MAX_DATA_X);
+		drawLineData(svg, UL, scaleX, scaleY, MIN_DATA_X, MAX_DATA_X);
 
 		drawPointData(svg, dataset, scaleX, scaleY);
 
@@ -192,8 +211,8 @@ var LineChart = function() {
 
 	//--------------------------------------------------------------------------------
 	return {
-		drawLineChart: function(id, dataset) {
-			drawLineChart(id, dataset);
+		drawLineChart: function(elementId, dataset, UL) {
+			drawLineChart(elementId, dataset, UL);
 		}
 	};
 

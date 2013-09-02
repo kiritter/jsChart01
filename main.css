@@ -106,9 +106,15 @@ footer table .col2{
 	stroke-width: 1.5px;
 }
 
-.CL {
-	stroke: green;
+.UL {
+	stroke: red;
 	stroke-width: 0.5px;
+}
+
+.pointError {
+	fill: red;
+	stroke: black;
+	stroke-width: 1px;
 }
 
 .labelAxisX {
@@ -119,4 +125,10 @@ footer table .col2{
 .labelData {
 	font-family: sans-serif;
 	font-size: 11px;
+}
+
+.labelUL {
+	font-family: sans-serif;
+	font-size: 11px;
+	fill: red;
 }

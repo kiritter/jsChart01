@@ -5,14 +5,16 @@ init();
 function init() {
 	window.addEventListener("load", function(){
 
-		var dataset = createDataset();
-		drawLineChart(dataset);
+		var UL = 1.85;
+
+		var dataset = createDataset(UL);
+		drawLineChart(dataset, UL);
 
 	}, false);
 }
 
 //--------------------------------------------------
-function createDataset() {
+function createDataset(UL) {
 	var DATA_LENGTH = 20;
 	var dataset = [];
 	var obj;
@@ -20,6 +22,11 @@ function createDataset() {
 		obj = {};
 		obj.date = "201307" + pad_zero(i+1) + " 080000";
 		obj.data = math_round(Math.random() + 1, 4);
+		if (obj.data >= UL) {
+			obj.error = "Error:UL";
+		}else{
+			obj.error = "";
+		}
 		dataset.push(obj);
 	}
 	return dataset;
@@ -37,8 +44,8 @@ function math_round(num, newScale) {
 }
 
 //--------------------------------------------------
-function drawLineChart(dataset) {
-	LineChart.drawLineChart("#stageSVG", dataset);
+function drawLineChart(dataset, UL) {
+	LineChart.drawLineChart("#stageSVG", dataset, UL);
 }
 
 //--------------------------------------------------
